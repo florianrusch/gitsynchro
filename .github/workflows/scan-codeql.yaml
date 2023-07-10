@@ -1,6 +1,7 @@
 name: scan:codeql
 
 on:
+  workflow_dispatch:
   push:
     paths-ignore:
       - '**/*.md'
