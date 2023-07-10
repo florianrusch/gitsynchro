@@ -1,0 +1,14 @@
+linters:
+  disable:
+    - gochecknoinits
+    - gofumpt
+    - depguard
+    - exhaustivestruct
+    - gochecknoglobals
+    - goerr113
+    - wrapcheck
+    - exhaustruct
+    # TODO
+    - forbidigo
+    - deadcode
+    - unused

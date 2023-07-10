@@ -1,0 +1,13 @@
+repos:
+  - name: not-in-sync
+    path: /var/folders/4n/y0mlkf_j7p51tkg7s37r7w8c0000gn/T/tmp.OefuygB6
+    defaultBranch: main
+    destinations:
+      - remoteName: origin
+
+# destinations:
+#   - name: GitLab
+#     type: gitlab
+#     url: https://gitlab.com
+#     pat:
+#     group: backup
