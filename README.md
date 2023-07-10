@@ -26,7 +26,7 @@ The application will look for the application in under the following paths:
 - `$HOME/gitsynchro/gitsynchro.yaml`
 - `./gitsynchro.yaml`
 
-In advance, it's possible to specify a custom path. You just need to specify the path as a command line flag like this: `--config my-path/whatever.yaml`
+In addition, it's possible to specify a custom path. You just need to specify the path as a command line flag like this: `--config my-path/whatever.yaml`
 
 ## Configuration
 
@@ -46,6 +46,7 @@ repos:
 - [ ] Generate JSON Schema for configuration
 - [ ] Double check disabled linters
 - [ ] Implement further subcommands to show and edit the config
+- [ ] Improve use-case description
 
 ## License
 
