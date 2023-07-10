@@ -19,8 +19,8 @@ jobs:
           egress-policy: block
           disable-telemetry: true
           allowed-endpoints: >
-            ghcr.io:443
             github.com:443
+            *.github.com:443
             goreleaser.com:443
             objects.githubusercontent.com:443
             proxy.golang.org:443
