@@ -27,7 +27,7 @@ var (
 			for _, repo := range cfg.Repos {
 				err := git.HandleRepo(repo)
 				if err != nil {
-					log.Errorf(err)
+					log.Error(err)
 					errors++
 				}
 			}
