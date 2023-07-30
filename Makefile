@@ -23,4 +23,5 @@ vet:
 	go vet
 
 lint:
-	golangci-lint run --enable-all
+	go mod tidy
+	go run github.com/golangci/golangci-lint/cmd/golangci-lint@v1.53.3 run --enable-all
