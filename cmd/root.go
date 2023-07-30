@@ -5,7 +5,6 @@ import (
 	"os"
 	"strings"
 
-	"github.com/florianrusch/gitsynchro/internal"
 	"github.com/florianrusch/gitsynchro/internal/config"
 	"github.com/florianrusch/gitsynchro/internal/git"
 	"github.com/florianrusch/gitsynchro/internal/log"
@@ -23,11 +22,23 @@ var (
 		Short: "gitsynchro is a tool to synchronize git repos.",
 		Long:  "gitsynchro is a tool to synchronize git repos.",
 		Run: func(cmd *cobra.Command, args []string) {
+			errors := 0
+
 			for _, repo := range cfg.Repos {
-				internal.CheckIfError(git.HandleRepo(repo))
+				err := git.HandleRepo(repo)
+				if err != nil {
+					log.Errorf(err)
+					errors++
+				}
 			}
 
-			log.Infof("Handled all repositories")
+			if errors == 0 {
+				log.Infof("Successfully processed all repositories")
+				os.Exit(0)
+			} else {
+				log.Warningf("%d error(s) occurred while processing the repositories. Please check the logs!", errors)
+				os.Exit(1)
+			}
 		},
 	}
 )
