@@ -16,3 +16,8 @@ func Infof(format string, args ...interface{}) {
 func Warningf(format string, args ...interface{}) {
 	fmt.Printf("\x1b[36;1mWARN: %s\x1b[0m\n", fmt.Sprintf(format, args...))
 }
+
+// Error should be used to display errors.
+func Error(err error) {
+	fmt.Printf("\x1b[31;1m%s\x1b[0m\n", fmt.Sprintf("error: %s", err))
+}
