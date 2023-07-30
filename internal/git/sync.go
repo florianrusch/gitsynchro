@@ -9,8 +9,10 @@ import (
 	"github.com/florianrusch/gitsynchro/internal"
 	"github.com/florianrusch/gitsynchro/internal/config"
 	"github.com/florianrusch/gitsynchro/internal/log"
+	"github.com/go-git/go-billy/v5/osfs"
 	g "github.com/go-git/go-git/v5"
 	"github.com/go-git/go-git/v5/plumbing"
+	"github.com/go-git/go-git/v5/plumbing/format/gitignore"
 )
 
 func HandleRepo(repo config.Repository) error {
@@ -91,12 +93,37 @@ func isStateClean(r *g.Repository) (bool, error) {
 		return false, err
 	}
 
+	if worktree.Excludes == nil {
+		worktree.Excludes = make([]gitignore.Pattern, 0)
+	}
+
+	worktree.Excludes = enrichGitIgnore(worktree.Excludes)
+
 	status, err := worktree.Status()
 	if err != nil {
 		return false, err
 	}
 
 	return status.IsClean(), nil
+}
+
+// enrichGitIgnore generates a gitignore pattern array which contains all entries from the user and system gitignore files.
+// This is needed, because gogit doesn't consider them, which would make the worktree dirty if the dir contains files which
+// are ignored by the user or system gitignore file.
+func enrichGitIgnore(pattern []gitignore.Pattern) []gitignore.Pattern {
+	if ignorePattens, err := gitignore.LoadGlobalPatterns(osfs.New("")); err == nil {
+		pattern = append(pattern, ignorePattens...)
+	} else {
+		log.Warningf("Couldn't load user gitignore patterns")
+	}
+
+	if ignorePattens, err := gitignore.LoadSystemPatterns(osfs.New("")); err == nil {
+		pattern = append(pattern, ignorePattens...)
+	} else {
+		log.Warningf("Couldn't load system gitignore patterns")
+	}
+
+	return pattern
 }
 
 func printCurrentBranch(r *g.Repository) error {
